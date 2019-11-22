@@ -1,5 +1,6 @@
 'use strict';
 
+const crypto = require('crypto');
 const BbPromise = require('bluebird');
 const CloudWatchLogsSdk = require('aws-sdk/clients/cloudwatchlogs');
 
@@ -82,6 +83,13 @@ function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function generateRandomString(length = 8) {
+  return crypto
+    .randomBytes(Math.ceil(length / 2))
+    .toString('hex')
+    .slice(0, length);
+}
+
 module.exports = {
   logger,
   region,
@@ -92,4 +100,5 @@ module.exports = {
   replaceEnv,
   persistentRequest,
   wait,
+  generateRandomString,
 };
